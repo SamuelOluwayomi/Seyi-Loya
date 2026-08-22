@@ -12,7 +12,7 @@ export default function Navbar() {
   ]
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-brand-bg/20 backdrop-blur-md border-b border-black/6 transition-all duration-300">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-[#eceef1]/85 backdrop-blur-xl border-b border-black/8 shadow-[0_4px_20px_rgba(0,0,0,0.04)] transition-all duration-300">
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         <a href="#" className="flex flex-col group">
           <span className="font-ojuju text-2xl tracking-wider text-brand-dark font-semibold group-hover:opacity-75 transition-opacity">
@@ -53,7 +53,7 @@ export default function Navbar() {
       </div>
 
       {mobileMenuOpen && (
-        <div className="md:hidden bg-brand-bg/15 backdrop-blur-2xl border-y border-black/8 px-6 py-6 space-y-4 shadow-sm">
+        <div className="md:hidden bg-[#eceef1]/95 backdrop-blur-2xl border-y border-black/10 px-6 py-6 space-y-4 shadow-lg">
           {navLinks.map((link) => (
             <a
               key={link.name}

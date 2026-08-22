@@ -1,12 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Ojuju:wght@200..800&family=Plus+Jakarta+Sans:ital,wght@0,300..700;1,300..700&display=swap");
 @import "tailwindcss";
 
 @theme {
   --font-display: "Ojuju", sans-serif;
   --font-sans: "Plus Jakarta Sans", sans-serif;
-  --color-brand-bg: #f7f6f4;
-  --color-brand-dark: #121316;
-  --color-brand-muted: #6b6e76;
-  --color-brand-border: #e3e1dc;
+  --color-brand-bg: #eceef1;
+  --color-brand-dark: #0e1014;
+  --color-brand-muted: #5e6371;
+  --color-brand-border: #ccd1db;
+  --color-brand-silver: #e2e5eb;
+  --color-brand-silver-dark: #b8bdcb;
 }
 
 :root {
@@ -17,11 +20,43 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #f7f6f4;
-  color: #121316;
+  background-color: #eceef1;
+  color: #0e1014;
   overflow-x: hidden;
 }
 
 .font-ojuju {
   font-family: "Ojuju", sans-serif;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes marqueeReverse {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: marquee 60s linear infinite;
+}
+
+.animate-marquee-reverse {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: marqueeReverse 60s linear infinite;
 }
