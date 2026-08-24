@@ -91,12 +91,18 @@ export default function Hero() {
         </div>
 
         {/* Mobile Portrait */}
-        <div className="absolute right-[-130px] bottom-[-25px] h-[78vh] flex items-end justify-end pointer-events-none z-20">
-          <img
-            src={portraitSrc}
-            alt="Seyi Loyaa Portrait"
-            className="h-full w-auto max-w-none object-contain object-bottom drop-shadow-[0_25px_45px_rgba(0,0,0,0.35)] transition-opacity duration-300"
-          />
+        <div className="absolute right-[-150px] bottom-[-25px] h-[78vh] flex items-end justify-end pointer-events-none z-20">
+          <div className="relative h-full w-auto flex items-end">
+            <img
+              src={portraitSrc}
+              alt="Seyi Loyaa Portrait"
+              className={`h-full w-auto max-w-none object-contain object-bottom drop-shadow-[0_25px_45px_rgba(0,0,0,0.35)] transition-opacity duration-300 ${isDark ? 'brightness-90 contrast-105' : ''
+                }`}
+            />
+            {isDark && (
+              <div className="absolute inset-0 bg-linear-to-t from-[#0a0b0d] via-black/20 to-transparent pointer-events-none" />
+            )}
+          </div>
         </div>
       </div>
 
@@ -124,11 +130,17 @@ export default function Hero() {
             transform: `translate(${mouseOffset.x * 0.8}px, ${mouseOffset.y * 0.4}px)`,
           }}
         >
-          <img
-            src={portraitSrc}
-            alt="Seyi Loyaa Portrait"
-            className="h-[68vh] md:h-[78vh] max-h-[720px] w-auto object-contain object-bottom drop-shadow-[0_20px_45px_rgba(0,0,0,0.35)] transition-opacity duration-300"
-          />
+          <div className="relative h-[68vh] md:h-[78vh] max-h-[720px] w-auto flex items-end">
+            <img
+              src={portraitSrc}
+              alt="Seyi Loyaa Portrait"
+              className={`h-full w-auto object-contain object-bottom drop-shadow-[0_20px_45px_rgba(0,0,0,0.35)] transition-opacity duration-300 ${isDark ? 'brightness-95 contrast-105' : ''
+                }`}
+            />
+            {isDark && (
+              <div className="absolute inset-0 bg-linear-to-t from-[#0a0b0d] via-transparent to-transparent pointer-events-none" />
+            )}
+          </div>
         </div>
 
         {/* Bottom Navigation Actions */}
