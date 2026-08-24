@@ -1,5 +1,6 @@
-import { ArrowUpRight, EnvelopeSimple, InstagramLogo, XLogo, WhatsappLogo, Camera } from '@phosphor-icons/react'
+import { ArrowUpRight, EnvelopeSimple } from '@phosphor-icons/react'
 import photoData from '../data/photos.json'
+import { useTheme } from '../context/ThemeContext'
 
 // Optimize Cloudinary image delivery URL
 function getOptimizedUrl(url, transformation = 'f_auto,q_auto,w_500') {
@@ -8,21 +9,32 @@ function getOptimizedUrl(url, transformation = 'f_auto,q_auto,w_500') {
 }
 
 export default function FooterCTA() {
-  // Curate sample photos for the 3 marquee rows
+  const { isDark } = useTheme()
   const allPhotos = photoData.all || []
   const row1Photos = allPhotos.slice(0, 12)
   const row2Photos = allPhotos.slice(12, 24)
   const row3Photos = allPhotos.slice(24, 36)
 
   return (
-    <footer id="contact" className="relative bg-brand-bg border-t border-brand-border select-none overflow-hidden pt-20 pb-12">
-      {/* Interlaced Text & Photo Marquee Stream - Compact & Refined */}
-      <div className="flex flex-col gap-2.5 sm:gap-3.5 py-4 overflow-hidden pointer-events-none opacity-95">
+    <footer
+      id="contact"
+      className={`relative border-t select-none overflow-hidden pt-16 md:pt-20 pb-12 transition-colors duration-300 ${
+        isDark
+          ? 'bg-[#0a0b0d] border-white/10 text-white'
+          : 'bg-brand-bg border-black/10 text-brand-dark'
+      }`}
+    >
+      {/* Interlaced Text & Photo Marquee Stream */}
+      <div className="flex flex-col gap-3 sm:gap-4 py-4 overflow-hidden pointer-events-none opacity-90">
         {/* Row 1 - Marquee Left */}
         <div className="flex items-center gap-3 sm:gap-4 md:gap-5 whitespace-nowrap animate-marquee">
           {row1Photos.map((photo, i) => (
             <div key={`r1-${photo.id}-${i}`} className="flex items-center gap-3 sm:gap-4 md:gap-5 shrink-0">
-              <div className="w-24 sm:w-32 md:w-40 h-14 sm:h-18 md:h-22 rounded-xl sm:rounded-2xl border border-brand-dark/25 overflow-hidden p-0 bg-brand-dark shadow-sm">
+              <div
+                className={`w-24 sm:w-32 md:w-40 h-14 sm:h-18 md:h-22 rounded-xl sm:rounded-2xl overflow-hidden p-0 bg-black shadow-sm border ${
+                  isDark ? 'border-white/20' : 'border-black/25'
+                }`}
+              >
                 <img
                   src={getOptimizedUrl(photo.secure_url, 'f_auto,q_auto,w_400')}
                   alt={photo.category}
@@ -30,7 +42,7 @@ export default function FooterCTA() {
                   loading="lazy"
                 />
               </div>
-              <span className="font-ojuju text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold uppercase tracking-tight text-brand-dark">
+              <span className="font-questrial text-2xl sm:text-3xl md:text-4xl font-normal uppercase tracking-[0.16em]">
                 {i % 3 === 0 ? 'CAPTURED' : i % 3 === 1 ? 'IN LIGHT' : 'AUTHENTIC'}
               </span>
             </div>
@@ -38,7 +50,11 @@ export default function FooterCTA() {
           {/* Repeat set for seamless infinite loop */}
           {row1Photos.map((photo, i) => (
             <div key={`r1-dup-${photo.id}-${i}`} className="flex items-center gap-3 sm:gap-4 md:gap-5 shrink-0">
-              <div className="w-24 sm:w-32 md:w-40 h-14 sm:h-18 md:h-22 rounded-xl sm:rounded-2xl border border-brand-dark/25 overflow-hidden p-0 bg-brand-dark shadow-sm">
+              <div
+                className={`w-24 sm:w-32 md:w-40 h-14 sm:h-18 md:h-22 rounded-xl sm:rounded-2xl overflow-hidden p-0 bg-black shadow-sm border ${
+                  isDark ? 'border-white/20' : 'border-black/25'
+                }`}
+              >
                 <img
                   src={getOptimizedUrl(photo.secure_url, 'f_auto,q_auto,w_400')}
                   alt={photo.category}
@@ -46,7 +62,7 @@ export default function FooterCTA() {
                   loading="lazy"
                 />
               </div>
-              <span className="font-ojuju text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold uppercase tracking-tight text-brand-dark">
+              <span className="font-questrial text-2xl sm:text-3xl md:text-4xl font-normal uppercase tracking-[0.16em]">
                 {i % 3 === 0 ? 'CAPTURED' : i % 3 === 1 ? 'IN LIGHT' : 'AUTHENTIC'}
               </span>
             </div>
@@ -57,10 +73,14 @@ export default function FooterCTA() {
         <div className="flex items-center gap-3 sm:gap-4 md:gap-5 whitespace-nowrap animate-marquee-reverse">
           {row2Photos.map((photo, i) => (
             <div key={`r2-${photo.id}-${i}`} className="flex items-center gap-3 sm:gap-4 md:gap-5 shrink-0">
-              <span className="font-ojuju text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold uppercase tracking-tight text-brand-dark">
+              <span className="font-questrial text-2xl sm:text-3xl md:text-4xl font-normal uppercase tracking-[0.16em]">
                 {i % 3 === 0 ? 'VISUALISING' : i % 3 === 1 ? 'HERITAGE' : 'MOMENTS'}
               </span>
-              <div className="w-24 sm:w-32 md:w-40 h-14 sm:h-18 md:h-22 rounded-xl sm:rounded-2xl border border-brand-dark/25 overflow-hidden p-0 bg-brand-dark shadow-sm">
+              <div
+                className={`w-24 sm:w-32 md:w-40 h-14 sm:h-18 md:h-22 rounded-xl sm:rounded-2xl overflow-hidden p-0 bg-black shadow-sm border ${
+                  isDark ? 'border-white/20' : 'border-black/25'
+                }`}
+              >
                 <img
                   src={getOptimizedUrl(photo.secure_url, 'f_auto,q_auto,w_400')}
                   alt={photo.category}
@@ -73,10 +93,14 @@ export default function FooterCTA() {
           {/* Repeat set for seamless infinite loop */}
           {row2Photos.map((photo, i) => (
             <div key={`r2-dup-${photo.id}-${i}`} className="flex items-center gap-3 sm:gap-4 md:gap-5 shrink-0">
-              <span className="font-ojuju text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold uppercase tracking-tight text-brand-dark">
+              <span className="font-questrial text-2xl sm:text-3xl md:text-4xl font-normal uppercase tracking-[0.16em]">
                 {i % 3 === 0 ? 'VISUALISING' : i % 3 === 1 ? 'HERITAGE' : 'MOMENTS'}
               </span>
-              <div className="w-24 sm:w-32 md:w-40 h-14 sm:h-18 md:h-22 rounded-xl sm:rounded-2xl border border-brand-dark/25 overflow-hidden p-0 bg-brand-dark shadow-sm">
+              <div
+                className={`w-24 sm:w-32 md:w-40 h-14 sm:h-18 md:h-22 rounded-xl sm:rounded-2xl overflow-hidden p-0 bg-black shadow-sm border ${
+                  isDark ? 'border-white/20' : 'border-black/25'
+                }`}
+              >
                 <img
                   src={getOptimizedUrl(photo.secure_url, 'f_auto,q_auto,w_400')}
                   alt={photo.category}
@@ -92,7 +116,11 @@ export default function FooterCTA() {
         <div className="flex items-center gap-3 sm:gap-4 md:gap-5 whitespace-nowrap animate-marquee">
           {row3Photos.map((photo, i) => (
             <div key={`r3-${photo.id}-${i}`} className="flex items-center gap-3 sm:gap-4 md:gap-5 shrink-0">
-              <div className="w-24 sm:w-32 md:w-40 h-14 sm:h-18 md:h-22 rounded-xl sm:rounded-2xl border border-brand-dark/25 overflow-hidden p-0 bg-brand-dark shadow-sm">
+              <div
+                className={`w-24 sm:w-32 md:w-40 h-14 sm:h-18 md:h-22 rounded-xl sm:rounded-2xl overflow-hidden p-0 bg-black shadow-sm border ${
+                  isDark ? 'border-white/20' : 'border-black/25'
+                }`}
+              >
                 <img
                   src={getOptimizedUrl(photo.secure_url, 'f_auto,q_auto,w_400')}
                   alt={photo.category}
@@ -100,7 +128,7 @@ export default function FooterCTA() {
                   loading="lazy"
                 />
               </div>
-              <span className="font-ojuju text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold uppercase tracking-tight text-brand-dark">
+              <span className="font-questrial text-2xl sm:text-3xl md:text-4xl font-normal uppercase tracking-[0.16em]">
                 {i % 3 === 0 ? 'SHOT BY' : i % 3 === 1 ? 'ṢÈYÍ LÓYÀÁ' : 'TIMELESS'}
               </span>
             </div>
@@ -108,7 +136,11 @@ export default function FooterCTA() {
           {/* Repeat set for seamless infinite loop */}
           {row3Photos.map((photo, i) => (
             <div key={`r3-dup-${photo.id}-${i}`} className="flex items-center gap-3 sm:gap-4 md:gap-5 shrink-0">
-              <div className="w-24 sm:w-32 md:w-40 h-14 sm:h-18 md:h-22 rounded-xl sm:rounded-2xl border border-brand-dark/25 overflow-hidden p-0 bg-brand-dark shadow-sm">
+              <div
+                className={`w-24 sm:w-32 md:w-40 h-14 sm:h-18 md:h-22 rounded-xl sm:rounded-2xl overflow-hidden p-0 bg-black shadow-sm border ${
+                  isDark ? 'border-white/20' : 'border-black/25'
+                }`}
+              >
                 <img
                   src={getOptimizedUrl(photo.secure_url, 'f_auto,q_auto,w_400')}
                   alt={photo.category}
@@ -116,7 +148,7 @@ export default function FooterCTA() {
                   loading="lazy"
                 />
               </div>
-              <span className="font-ojuju text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold uppercase tracking-tight text-brand-dark">
+              <span className="font-questrial text-2xl sm:text-3xl md:text-4xl font-normal uppercase tracking-[0.16em]">
                 {i % 3 === 0 ? 'SHOT BY' : i % 3 === 1 ? 'ṢÈYÍ LÓYÀÁ' : 'TIMELESS'}
               </span>
             </div>
@@ -126,12 +158,20 @@ export default function FooterCTA() {
 
       {/* Inquiry & Footer Bottom Section */}
       <div className="max-w-7xl mx-auto px-6 pt-16 md:pt-24">
-        <div className="flex flex-col md:flex-row md:items-end justify-between pb-12 border-b border-brand-border gap-8">
+        <div
+          className={`flex flex-col md:flex-row md:items-end justify-between pb-12 border-b gap-8 ${
+            isDark ? 'border-white/10' : 'border-black/10'
+          }`}
+        >
           <div>
-            <span className="font-ojuju text-xs uppercase tracking-[0.25em] text-brand-muted font-bold block mb-2">
+            <span
+              className={`font-questrial text-xs uppercase tracking-[0.25em] font-normal block mb-2 ${
+                isDark ? 'text-gray-400' : 'text-brand-muted'
+              }`}
+            >
               Available For Bookings Worldwide
             </span>
-            <h2 className="font-ojuju text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-brand-dark uppercase">
+            <h2 className="font-questrial text-3xl sm:text-4xl md:text-5xl font-normal tracking-[0.06em] uppercase">
               Let's Create Together
             </h2>
           </div>
@@ -139,7 +179,11 @@ export default function FooterCTA() {
           <div className="flex flex-wrap items-center gap-4">
             <a
               href="mailto:contact@seyiloyaa.com"
-              className="inline-flex items-center gap-2 bg-brand-dark text-white px-7 py-4 rounded-full font-ojuju text-xs uppercase tracking-[0.2em] font-bold hover:bg-black transition-all shadow-md cursor-pointer"
+              className={`inline-flex items-center gap-2 text-white px-7 py-4 rounded-full font-questrial text-xs uppercase tracking-[0.2em] font-medium shadow-md cursor-pointer transition-all ${
+                isDark
+                  ? 'bg-brand-blue hover:bg-blue-600'
+                  : 'bg-brand-dark hover:bg-black'
+              }`}
             >
               <EnvelopeSimple size={16} weight="bold" />
               <span>Inquire / Book Shoot</span>
@@ -149,8 +193,12 @@ export default function FooterCTA() {
         </div>
 
         {/* Bottom Bar: Copyright & Socials */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs uppercase tracking-[0.18em] text-brand-muted font-medium gap-4">
-          <div className="font-ojuju text-sm tracking-wider font-semibold text-brand-dark">
+        <div
+          className={`pt-8 flex flex-col sm:flex-row items-center justify-between text-xs uppercase tracking-[0.18em] font-normal gap-4 font-questrial ${
+            isDark ? 'text-gray-400' : 'text-brand-muted'
+          }`}
+        >
+          <div className="text-sm tracking-wider">
             Ṣèyí Lóyàá &copy; {new Date().getFullYear()} &bull; All Rights Reserved
           </div>
 
@@ -159,7 +207,7 @@ export default function FooterCTA() {
               href="https://instagram.com"
               target="_blank"
               rel="noreferrer"
-              className="hover:text-brand-dark transition-colors"
+              className="hover:text-brand-blue transition-colors"
             >
               Instagram
             </a>
@@ -167,7 +215,7 @@ export default function FooterCTA() {
               href="https://x.com"
               target="_blank"
               rel="noreferrer"
-              className="hover:text-brand-dark transition-colors"
+              className="hover:text-brand-blue transition-colors"
             >
               Twitter / X
             </a>
@@ -175,7 +223,7 @@ export default function FooterCTA() {
               href="https://wa.me"
               target="_blank"
               rel="noreferrer"
-              className="hover:text-brand-dark transition-colors"
+              className="hover:text-brand-blue transition-colors"
             >
               WhatsApp
             </a>

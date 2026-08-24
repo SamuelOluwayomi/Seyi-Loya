@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
-import { ArrowUpRight, X, ArrowRight, Camera, Sparkle } from '@phosphor-icons/react'
+import { ArrowUpRight, X, ArrowRight } from '@phosphor-icons/react'
 import photoData from '../data/photos.json'
+import { useTheme } from '../context/ThemeContext'
 
 // Optimize Cloudinary image delivery URL
 function getOptimizedUrl(url, transformation = 'f_auto,q_auto,w_1000') {
@@ -69,10 +70,10 @@ const CATEGORY_DETAILS = {
 }
 
 export default function SeriesShowcase() {
+  const { isDark } = useTheme()
   const [selectedCollection, setSelectedCollection] = useState(null)
   const [activeCoverPhoto, setActiveCoverPhoto] = useState(null)
 
-  // Build collection list with cover photos and details
   const collections = Object.entries(photoData.categories).map(([name, photos]) => {
     const details = CATEGORY_DETAILS[name] || {
       title: name,
@@ -90,7 +91,6 @@ export default function SeriesShowcase() {
     }
   })
 
-  // Lock body scroll when modal is active
   useEffect(() => {
     if (selectedCollection !== null) {
       document.body.style.overflow = 'hidden'
@@ -104,7 +104,6 @@ export default function SeriesShowcase() {
     }
   }, [selectedCollection])
 
-  // 4 staggered columns for diagonal grid layout
   const col1 = [collections[0], collections[4]].filter(Boolean)
   const col2 = [collections[1], collections[5]].filter(Boolean)
   const col3 = [collections[2], collections[6]].filter(Boolean)
@@ -117,34 +116,37 @@ export default function SeriesShowcase() {
     { items: col4, offsetClass: 'translate-y-12 sm:translate-y-24 md:translate-y-36' },
   ]
 
+  const verticalLineColor = isDark ? 'rgba(255, 255, 255, 0.22)' : 'rgba(14, 16, 20, 0.14)'
+
   return (
     <section
       id="series"
-      className="relative py-20 md:py-32 px-4 sm:px-6 md:px-8 border-t border-brand-border select-none overflow-hidden"
+      className={`relative py-20 md:py-32 px-4 sm:px-6 md:px-8 border-t select-none overflow-hidden transition-colors duration-300 ${
+        isDark
+          ? 'bg-[#0a0b0d] border-white/10 text-white'
+          : 'bg-brand-bg border-black/10 text-brand-dark'
+      }`}
       style={{
-        backgroundColor: '#f7f6f4',
-        backgroundImage: `
-          linear-gradient(45deg, rgba(18, 19, 22, 0.28) 25%, transparent 25%),
-          linear-gradient(-45deg, rgba(18, 19, 22, 0.28) 25%, transparent 25%),
-          linear-gradient(45deg, transparent 75%, rgba(18, 19, 22, 0.28) 75%),
-          linear-gradient(-45deg, transparent 75%, rgba(18, 19, 22, 0.28) 75%)
-        `,
-        backgroundSize: '120px 120px',
-        backgroundPosition: '0 0, 0 60px, 60px -60px, -60px 0px',
+        backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent 39px, ${verticalLineColor} 39px, ${verticalLineColor} 40px)`,
+        backgroundSize: '40px 100%',
       }}
     >
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Heading - Direct on Background */}
         <div className="mb-12">
-          <span className="font-ojuju text-xs uppercase tracking-[0.25em] text-brand-dark/70 font-bold block mb-1">
+          <span
+            className={`font-questrial text-xs uppercase tracking-[0.25em] font-normal block mb-1 ${
+              isDark ? 'text-gray-400' : 'text-brand-muted'
+            }`}
+          >
             Photography Disciplines
           </span>
-          <h2 className="font-ojuju text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-brand-dark uppercase">
+          <h2 className="font-questrial text-4xl sm:text-5xl md:text-6xl font-normal tracking-[0.06em] uppercase">
             Collections
           </h2>
         </div>
 
-        {/* Diagonal Staggered Grid */}
+        {/* Staggered Grid */}
         <div className="pb-16 md:pb-28">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {columns.map((col, colIndex) => (
@@ -156,7 +158,9 @@ export default function SeriesShowcase() {
                   <div
                     key={item.name}
                     onClick={() => setSelectedCollection(item)}
-                    className="group relative cursor-pointer p-0 border border-brand-dark/30 rounded-2xl overflow-hidden bg-brand-dark shadow-xl transition-all duration-300 hover:shadow-2xl hover:border-black hover:-translate-y-1"
+                    className={`group relative cursor-pointer p-0 rounded-2xl overflow-hidden bg-black shadow-xl transition-all duration-300 hover:shadow-2xl hover:border-brand-blue hover:-translate-y-1 border ${
+                      isDark ? 'border-white/15' : 'border-black/30'
+                    }`}
                   >
                     {/* Cover Photograph */}
                     <div className="relative aspect-3/4 w-full overflow-hidden">
@@ -172,16 +176,16 @@ export default function SeriesShowcase() {
                     {/* Metadata Overlay */}
                     <div className="absolute inset-0 flex flex-col justify-between p-5 text-white pointer-events-none">
                       <div className="flex justify-end items-start">
-                        <span className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white group-hover:bg-white group-hover:text-brand-dark transition-all duration-200">
+                        <span className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white group-hover:bg-brand-blue group-hover:text-white transition-all duration-200">
                           <ArrowUpRight size={15} weight="bold" />
                         </span>
                       </div>
 
                       <div>
-                        <span className="font-ojuju text-xs uppercase tracking-[0.2em] text-white/70 block mb-0.5">
+                        <span className="font-questrial text-xs uppercase tracking-[0.2em] text-white/70 block mb-0.5 font-normal">
                           {item.tagline}
                         </span>
-                        <h3 className="font-ojuju text-2xl sm:text-3xl font-bold tracking-wider uppercase text-white leading-tight">
+                        <h3 className="font-questrial text-2xl sm:text-3xl font-medium tracking-wider uppercase text-white leading-tight">
                           {item.title}
                         </h3>
                       </div>
@@ -201,20 +205,38 @@ export default function SeriesShowcase() {
           aria-modal="true"
           className="fixed inset-0 z-50 bg-black/90 backdrop-blur-2xl flex items-center justify-center p-4 sm:p-6 md:p-10 select-none overflow-y-auto"
         >
-          <div className="relative w-full max-w-4xl bg-brand-bg rounded-3xl border border-brand-dark/25 shadow-2xl overflow-hidden my-auto flex flex-col md:flex-row">
-            {/* Close Button */}
+          <div
+            className={`relative w-full max-w-4xl rounded-3xl shadow-2xl overflow-hidden my-auto flex flex-col md:flex-row border ${
+              isDark
+                ? 'bg-[#12141d] border-white/15 text-white'
+                : 'bg-brand-bg border-black/20 text-brand-dark'
+            }`}
+          >
             <button
               type="button"
               onClick={() => setSelectedCollection(null)}
-              className="absolute top-4 right-4 z-30 p-2.5 rounded-full bg-black/10 hover:bg-black text-brand-dark hover:text-white transition-all cursor-pointer"
+              className={`absolute top-4 right-4 z-30 p-2.5 rounded-full hover:bg-brand-blue hover:text-white transition-all cursor-pointer ${
+                isDark
+                  ? 'bg-white/10 text-white'
+                  : 'bg-black/10 text-brand-dark'
+              }`}
               aria-label="Close details"
             >
               <X size={20} weight="bold" />
             </button>
 
-            {/* Left Side: Hero Image with Thumbnails */}
-            <div className="w-full md:w-1/2 p-4 sm:p-6 flex flex-col justify-between bg-black/5 border-b md:border-b-0 md:border-r border-brand-dark/10">
-              <div className="relative aspect-3/4 w-full rounded-2xl overflow-hidden border border-brand-dark/20 bg-brand-dark shadow-inner p-0">
+            <div
+              className={`w-full md:w-1/2 p-4 sm:p-6 flex flex-col justify-between border-b md:border-b-0 md:border-r ${
+                isDark
+                  ? 'bg-black/30 border-white/10'
+                  : 'bg-black/5 border-black/10'
+              }`}
+            >
+              <div
+                className={`relative aspect-3/4 w-full rounded-2xl overflow-hidden bg-black shadow-inner p-0 border ${
+                  isDark ? 'border-white/15' : 'border-black/20'
+                }`}
+              >
                 <img
                   src={getOptimizedUrl(
                     activeCoverPhoto?.secure_url || selectedCollection.coverPhoto?.secure_url,
@@ -225,7 +247,6 @@ export default function SeriesShowcase() {
                 />
               </div>
 
-              {/* Sample Photo Thumbnails */}
               {selectedCollection.photos.length > 1 && (
                 <div className="flex items-center gap-2 mt-4 overflow-x-auto pb-1 no-scrollbar">
                   {selectedCollection.photos.slice(0, 5).map((photo) => (
@@ -233,10 +254,13 @@ export default function SeriesShowcase() {
                       key={photo.id}
                       type="button"
                       onClick={() => setActiveCoverPhoto(photo)}
-                      className={`relative w-14 h-14 rounded-lg overflow-hidden border transition-all cursor-pointer shrink-0 ${activeCoverPhoto?.id === photo.id
-                        ? 'border-brand-dark ring-2 ring-brand-dark/30 scale-105'
-                        : 'border-brand-dark/20 opacity-70 hover:opacity-100'
-                        }`}
+                      className={`relative w-14 h-14 rounded-lg overflow-hidden border transition-all cursor-pointer shrink-0 ${
+                        activeCoverPhoto?.id === photo.id
+                          ? 'border-brand-blue ring-2 ring-brand-blue/40 scale-105'
+                          : isDark
+                          ? 'border-white/20 opacity-70 hover:opacity-100'
+                          : 'border-black/20 opacity-70 hover:opacity-100'
+                      }`}
                     >
                       <img
                         src={getOptimizedUrl(photo.secure_url, 'f_auto,q_auto,w_200')}
@@ -249,30 +273,44 @@ export default function SeriesShowcase() {
               )}
             </div>
 
-            {/* Right Side: Editorial Discipline Information */}
             <div className="w-full md:w-1/2 p-6 sm:p-8 md:p-10 flex flex-col justify-between">
               <div>
-                <span className="font-ojuju text-xs uppercase tracking-[0.25em] text-brand-muted font-bold block mb-2">
+                <span className="font-questrial text-xs uppercase tracking-[0.25em] text-brand-blue font-medium block mb-2">
                   {selectedCollection.tagline}
                 </span>
-                <h3 className="font-ojuju text-3xl sm:text-4xl font-bold tracking-tight text-brand-dark uppercase mb-4">
+                <h3 className="font-questrial text-3xl sm:text-4xl font-normal tracking-[0.06em] uppercase mb-4">
                   {selectedCollection.title}
                 </h3>
-                <p className="font-ojuju text-base sm:text-lg text-brand-dark/85 leading-relaxed mb-6 font-medium">
+                <p
+                  className={`font-questrial text-base sm:text-lg leading-relaxed mb-6 font-normal ${
+                    isDark ? 'text-gray-300' : 'text-brand-dark/85'
+                  }`}
+                >
                   {selectedCollection.description}
                 </p>
 
-                {/* Offerings Checklist */}
-                <div className="space-y-3 pt-4 border-t border-brand-dark/10 mb-8">
-                  <span className="font-ojuju text-[11px] uppercase tracking-[0.22em] text-brand-muted block font-bold">
+                <div
+                  className={`space-y-3 pt-4 border-t mb-8 ${
+                    isDark ? 'border-white/10' : 'border-black/10'
+                  }`}
+                >
+                  <span
+                    className={`font-questrial text-[11px] uppercase tracking-[0.22em] block font-normal ${
+                      isDark ? 'text-gray-400' : 'text-brand-muted'
+                    }`}
+                  >
                     What I Deliver
                   </span>
                   {selectedCollection.services.map((svc) => (
                     <div key={svc} className="flex items-center gap-3">
-                      <span className="w-5 h-5 rounded-full bg-brand-dark text-white flex items-center justify-center text-[10px]">
+                      <span className="w-5 h-5 rounded-full bg-brand-blue text-white flex items-center justify-center text-[10px]">
                         <ArrowRight size={12} weight="bold" />
                       </span>
-                      <span className="font-ojuju text-sm uppercase tracking-[0.14em] font-semibold text-brand-dark">
+                      <span
+                        className={`font-questrial text-sm uppercase tracking-[0.14em] font-medium ${
+                          isDark ? 'text-gray-200' : 'text-brand-dark'
+                        }`}
+                      >
                         {svc}
                       </span>
                     </div>
@@ -280,12 +318,15 @@ export default function SeriesShowcase() {
                 </div>
               </div>
 
-              {/* Action Button */}
               <div>
                 <a
                   href="#contact"
                   onClick={() => setSelectedCollection(null)}
-                  className="w-full inline-flex items-center justify-center gap-3 bg-brand-dark text-white hover:bg-black px-6 py-3.5 rounded-full font-ojuju text-xs uppercase tracking-[0.2em] font-bold shadow-lg hover:shadow-xl transition-all cursor-pointer"
+                  className={`w-full inline-flex items-center justify-center gap-3 text-white px-6 py-3.5 rounded-full font-questrial text-xs uppercase tracking-[0.2em] font-medium shadow-lg hover:shadow-xl transition-all cursor-pointer ${
+                    isDark
+                      ? 'bg-brand-blue hover:bg-blue-600'
+                      : 'bg-brand-dark hover:bg-black'
+                  }`}
                 >
                   <span>Book This Shoot</span>
                   <ArrowUpRight size={16} weight="bold" />
