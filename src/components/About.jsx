@@ -71,14 +71,14 @@ export default function About() {
             <div
               className={`relative w-full max-w-[380px] sm:max-w-[420px] aspect-4/5 rounded-3xl overflow-hidden shadow-2xl flex items-end justify-center transition-all duration-500 border ${
                 isDark
-                  ? 'border-2 border-white bg-white shadow-[0_15px_50px_rgba(0,0,0,0.6)]'
+                  ? 'border-2 border-black bg-white shadow-[0_15px_50px_rgba(0,0,0,0.6)]'
                   : 'border-black/15 bg-[#e2e5eb]'
               }`}
             >
               <img
                 src={aboutImageSrc}
                 alt="Ṣèyí Lóyàá"
-                className="w-full h-full object-contain object-bottom drop-shadow-[0_10px_25px_rgba(0,0,0,0.2)] transition-all duration-500 block"
+                className="w-full h-full object-contain object-bottom drop-shadow-[0_10px_25px_rgba(0,0,0,0.2)] transition-all duration-500 block translate-y-0.5 scale-[1.02] origin-bottom"
               />
             </div>
           </div>
