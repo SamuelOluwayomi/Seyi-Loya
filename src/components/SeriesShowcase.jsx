@@ -146,9 +146,54 @@ export default function SeriesShowcase() {
           </h2>
         </div>
 
-        {/* Staggered Grid */}
-        <div className="pb-16 md:pb-28">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        {/* Mobile Grid: 2-col compact */}
+        <div className="sm:hidden pb-10">
+          <div className="grid grid-cols-2 gap-3">
+            {collections.map((item) => (
+              <button
+                key={item.name}
+                type="button"
+                onClick={() => setSelectedCollection(item)}
+                className={`group relative cursor-pointer p-0 rounded-2xl overflow-hidden bg-black shadow-lg transition-[transform,box-shadow] duration-200 active:scale-95 border text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue ${
+                  isDark ? 'border-white/10' : 'border-black/20'
+                }`}
+                aria-label={`View ${item.title} details`}
+              >
+                {/* Cover photo — taller aspect for portrait feel */}
+                <div className="relative aspect-3/4 w-full overflow-hidden">
+                  <img
+                    src={getOptimizedUrl(item.coverPhoto?.secure_url, 'f_auto,q_auto,w_600')}
+                    alt={item.name}
+                    loading="lazy"
+                    className="w-full h-full object-cover object-center transition-transform duration-500 group-active:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/30 to-transparent" />
+                </div>
+
+                {/* Overlay text */}
+                <div className="absolute inset-0 flex flex-col justify-between p-3 text-white pointer-events-none">
+                  <div className="flex justify-end">
+                    <span className="w-7 h-7 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                      <ArrowUpRight size={12} weight="bold" />
+                    </span>
+                  </div>
+                  <div>
+                    <span className="font-questrial text-[9px] uppercase tracking-[0.18em] text-white/65 block mb-0.5 font-normal leading-tight">
+                      {item.tagline}
+                    </span>
+                    <h3 className="font-questrial text-sm font-medium tracking-wider uppercase text-white leading-tight">
+                      {item.title}
+                    </h3>
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop Staggered Grid: 4-col with vertical offset */}
+        <div className="hidden sm:block pb-16 md:pb-28">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {columns.map((col, colIndex) => (
               <div
                 key={colIndex}
