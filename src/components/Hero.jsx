@@ -56,7 +56,7 @@ export default function Hero() {
         {/* Midground Typography Layer (Behind the portrait) */}
         <div className="absolute inset-x-0 top-[20%] sm:top-[18%] flex flex-col items-center justify-center pointer-events-none z-10 px-2">
           <h1
-            className={`font-ojuju text-[18vw] sm:text-[16vw] leading-[0.84] font-bold uppercase tracking-tight text-center ${isDark ? 'text-white/90' : 'text-brand-dark/90'
+            className={`font-ojuju text-[18vw] sm:text-[16vw] leading-[0.92] pt-1 pb-3 font-bold uppercase tracking-tight text-center ${isDark ? 'text-white/90' : 'text-brand-dark/90'
               }`}
           >
             Ṣèyí<br />Lóyàá
@@ -141,13 +141,13 @@ export default function Hero() {
 
         {/* Midground Typography Layer */}
         <div
-          className="absolute inset-x-0 bottom-5 translate-y-[-45%] flex items-center justify-center pointer-events-none z-10 px-4 max-w-full overflow-hidden transition-transform duration-300 ease-out"
+          className="absolute inset-x-0 bottom-[-80px] translate-y-[-45%] flex items-center justify-center pointer-events-none z-10 px-4 max-w-full transition-transform duration-300 ease-out"
           style={{
             transform: `translate(${mouseOffset.x * -0.6}px, calc(-45% + ${mouseOffset.y * -0.6}px))`,
           }}
         >
           <h1
-            className={`font-ojuju text-[17.5vw] leading-none font-bold tracking-tight uppercase text-center w-full whitespace-nowrap opacity-95 ${isDark ? 'text-white' : 'text-brand-dark'
+            className={`font-ojuju text-[17.5vw] leading-[1.08] pt-1 pb-6 font-bold tracking-tight uppercase text-center w-full whitespace-nowrap opacity-95 ${isDark ? 'text-white' : 'text-brand-dark'
               }`}
           >
             Ṣèyí Lóyàá

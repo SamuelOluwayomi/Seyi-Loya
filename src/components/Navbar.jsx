@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { List, X, ArrowUpRight, Sun, Moon } from '@phosphor-icons/react'
 import { useTheme } from '../context/ThemeContext'
 
-export default function Navbar() {
+export default function Navbar({ isVisible = true }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { isDark, toggleTheme } = useTheme()
 
@@ -15,7 +15,11 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b shadow-[0_4px_20px_rgba(0,0,0,0.04)] transition-colors duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b shadow-[0_4px_20px_rgba(0,0,0,0.04)] transition-all duration-500 ease-in-out ${
+        !isVisible
+          ? '-translate-y-full opacity-0 pointer-events-none'
+          : 'translate-y-0 opacity-100 pointer-events-auto'
+      } ${
         isDark
           ? 'bg-[#0a0b0d]/90 border-white/10 text-white'
           : 'bg-brand-bg/90 border-black/8 text-brand-dark'

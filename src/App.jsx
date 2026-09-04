@@ -1,5 +1,6 @@
+import { useState } from 'react'
 import Navbar from './components/Navbar'
-import Hero from './components/Hero'
+import HeroTransitionExperience from './components/HeroTransitionExperience'
 import SelectedWorks from './components/SelectedWorks'
 import SeriesShowcase from './components/SeriesShowcase'
 import About from './components/About'
@@ -8,6 +9,7 @@ import { useTheme } from './context/ThemeContext'
 
 export default function App() {
   const { isDark } = useTheme()
+  const [isNavVisible, setIsNavVisible] = useState(true)
 
   return (
     <div
@@ -15,9 +17,9 @@ export default function App() {
         isDark ? 'bg-[#0a0b0d] text-white' : 'bg-brand-bg text-brand-dark'
       }`}
     >
-      <Navbar />
+      <Navbar isVisible={isNavVisible} />
       <main>
-        <Hero />
+        <HeroTransitionExperience onNavVisibilityChange={setIsNavVisible} />
         <SelectedWorks />
         <SeriesShowcase />
         <About />
