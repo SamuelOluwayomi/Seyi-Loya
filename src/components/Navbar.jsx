@@ -21,9 +21,9 @@ export default function Navbar() {
           : 'bg-brand-bg/90 border-black/8 text-brand-dark'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        <a href="#" className="flex flex-col group">
-          <span className="font-questrial text-2xl tracking-[0.08em] font-medium group-hover:text-brand-blue transition-colors">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-18 md:h-20 flex items-center justify-between">
+        <a href="#" className="flex flex-col group rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-4 focus-visible:ring-offset-brand-bg">
+          <span className="font-questrial text-[22px] sm:text-2xl tracking-[0.04em] sm:tracking-[0.08em] font-medium group-hover:text-brand-blue transition-colors duration-150">
             Ṣèyí Lóyàá
           </span>
         </a>
@@ -37,7 +37,7 @@ export default function Navbar() {
             <a
               key={link.name}
               href={link.href}
-              className={`transition-colors duration-200 ${
+              className={`transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-4 focus-visible:ring-offset-brand-bg ${
                 isDark ? 'hover:text-white' : 'hover:text-brand-dark'
               }`}
             >
@@ -51,10 +51,10 @@ export default function Navbar() {
           <button
             type="button"
             onClick={toggleTheme}
-            className={`w-10 h-10 rounded-full border flex items-center justify-center hover:border-brand-blue hover:text-brand-blue transition-all cursor-pointer shadow-sm ${
+            className={`w-10 h-10 rounded-full border flex items-center justify-center hover:border-brand-blue hover:text-brand-blue active:scale-95 transition-[background-color,border-color,color,transform] duration-150 cursor-pointer shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-4 ${
               isDark
-                ? 'border-white/20 bg-[#14161f] text-white'
-                : 'border-black/15 bg-white/80 text-brand-dark'
+                ? 'border-white/20 bg-[#14161f] text-white focus-visible:ring-offset-[#0a0b0d]'
+                : 'border-black/15 bg-white/80 text-brand-dark focus-visible:ring-offset-brand-bg'
             }`}
             aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
           >
@@ -63,10 +63,10 @@ export default function Navbar() {
 
           <a
             href="#contact"
-            className={`group inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-white px-5 py-2.5 rounded-full font-medium transition-colors duration-200 shadow-sm ${
+            className={`group inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-white px-5 py-2.5 rounded-full font-medium transition-[background-color,transform] duration-150 shadow-sm active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-4 ${
               isDark
-                ? 'bg-brand-blue hover:bg-blue-600'
-                : 'bg-brand-dark hover:bg-black'
+                ? 'bg-brand-blue hover:bg-blue-600 focus-visible:ring-offset-[#0a0b0d]'
+                : 'bg-brand-dark hover:bg-black focus-visible:ring-offset-brand-bg'
             }`}
           >
             <span>Inquire</span>
@@ -79,10 +79,10 @@ export default function Navbar() {
           <button
             type="button"
             onClick={toggleTheme}
-            className={`w-9 h-9 rounded-full border flex items-center justify-center cursor-pointer ${
+            className={`w-11 h-11 rounded-full border flex items-center justify-center cursor-pointer active:scale-95 transition-[background-color,border-color,color,transform] duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 ${
               isDark
-                ? 'border-white/20 bg-[#14161f] text-white'
-                : 'border-black/15 bg-white/80 text-brand-dark'
+                ? 'border-white/20 bg-[#14161f] text-white focus-visible:ring-offset-[#0a0b0d]'
+                : 'border-black/15 bg-white/90 text-brand-dark focus-visible:ring-offset-brand-bg'
             }`}
             aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
           >
@@ -92,36 +92,51 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 focus:outline-none cursor-pointer"
-            aria-label="Toggle Menu"
+            className={`h-11 px-3 rounded-full border inline-flex items-center gap-2 font-questrial text-[11px] uppercase tracking-[0.16em] cursor-pointer active:scale-95 transition-[background-color,border-color,color,transform] duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-2 ${
+              isDark
+                ? 'border-white/20 bg-[#14161f] text-white focus-visible:ring-offset-[#0a0b0d]'
+                : 'border-black/15 bg-white/90 text-brand-dark focus-visible:ring-offset-brand-bg'
+            }`}
+            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileMenuOpen}
           >
-            {mobileMenuOpen ? <X size={24} /> : <List size={24} />}
+            {mobileMenuOpen ? <X size={19} weight="bold" /> : <List size={19} weight="bold" />}
+            <span>{mobileMenuOpen ? 'Close' : 'Menu'}</span>
           </button>
         </div>
       </div>
 
       {mobileMenuOpen && (
         <div
-          className={`md:hidden border-y px-6 py-6 space-y-4 shadow-xl ${
+          className={`md:hidden border-y px-4 py-5 shadow-xl ${
             isDark
               ? 'bg-[#0a0b0d] border-white/10 text-white'
               : 'bg-brand-bg border-black/10 text-brand-dark'
           }`}
         >
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              onClick={() => setMobileMenuOpen(false)}
-              className="block font-questrial text-sm uppercase tracking-[0.2em] font-medium hover:text-brand-blue py-2 transition-colors"
-            >
-              {link.name}
-            </a>
-          ))}
+          <nav className="grid gap-2">
+            {navLinks.map((link, index) => (
+              <a
+                key={link.name}
+                href={link.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className={`flex min-h-12 items-center justify-between rounded-xl border px-4 font-questrial text-sm uppercase tracking-[0.12em] font-medium transition-[background-color,border-color,color] duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue ${
+                  isDark
+                    ? 'border-white/10 bg-white/5 text-white hover:border-brand-blue hover:text-brand-blue'
+                    : 'border-black/10 bg-white/70 text-brand-dark hover:border-brand-blue hover:text-brand-blue'
+                }`}
+              >
+                <span>{link.name}</span>
+                <span className={isDark ? 'text-white/35' : 'text-brand-muted'}>
+                  0{index + 1}
+                </span>
+              </a>
+            ))}
+          </nav>
           <a
             href="#contact"
             onClick={() => setMobileMenuOpen(false)}
-            className={`inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-white px-5 py-3 rounded-full font-medium mt-4 w-full justify-center shadow-md transition-all ${
+            className={`inline-flex min-h-12 items-center gap-2 text-xs uppercase tracking-[0.14em] text-white px-5 py-3 rounded-full font-medium mt-4 w-full justify-center shadow-md transition-[background-color,transform] duration-150 active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue ${
               isDark
                 ? 'bg-brand-blue hover:bg-blue-600'
                 : 'bg-brand-dark hover:bg-black'

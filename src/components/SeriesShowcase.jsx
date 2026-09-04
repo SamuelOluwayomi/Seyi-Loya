@@ -111,9 +111,9 @@ export default function SeriesShowcase() {
 
   const columns = [
     { items: col1, offsetClass: 'translate-y-0' },
-    { items: col2, offsetClass: 'translate-y-4 sm:translate-y-8 md:translate-y-12' },
-    { items: col3, offsetClass: 'translate-y-8 sm:translate-y-16 md:translate-y-24' },
-    { items: col4, offsetClass: 'translate-y-12 sm:translate-y-24 md:translate-y-36' },
+    { items: col2, offsetClass: 'sm:translate-y-8 md:translate-y-12' },
+    { items: col3, offsetClass: 'sm:translate-y-16 md:translate-y-24' },
+    { items: col4, offsetClass: 'sm:translate-y-24 md:translate-y-36' },
   ]
 
   const verticalLineColor = isDark ? 'rgba(255, 255, 255, 0.22)' : 'rgba(14, 16, 20, 0.14)'
@@ -121,7 +121,7 @@ export default function SeriesShowcase() {
   return (
     <section
       id="series"
-      className={`relative py-20 md:py-32 px-4 sm:px-6 md:px-8 border-t select-none overflow-hidden transition-colors duration-300 ${
+      className={`relative py-16 sm:py-20 md:py-32 px-4 sm:px-6 md:px-8 border-t select-none overflow-hidden transition-colors duration-300 ${
         isDark
           ? 'bg-[#0a0b0d] border-white/10 text-white'
           : 'bg-brand-bg border-black/10 text-brand-dark'
@@ -133,7 +133,7 @@ export default function SeriesShowcase() {
     >
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Heading - Direct on Background */}
-        <div className="mb-12">
+        <div className="mb-8 sm:mb-12">
           <span
             className={`font-questrial text-xs uppercase tracking-[0.25em] font-normal block mb-1 ${
               isDark ? 'text-gray-400' : 'text-brand-muted'
@@ -141,26 +141,28 @@ export default function SeriesShowcase() {
           >
             Photography Disciplines
           </span>
-          <h2 className="font-questrial text-4xl sm:text-5xl md:text-6xl font-normal tracking-[0.06em] uppercase">
+          <h2 className="font-questrial text-4xl sm:text-5xl md:text-6xl font-normal tracking-[0.04em] sm:tracking-[0.06em] uppercase">
             Collections
           </h2>
         </div>
 
         {/* Staggered Grid */}
         <div className="pb-16 md:pb-28">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {columns.map((col, colIndex) => (
               <div
                 key={colIndex}
                 className={`flex flex-col gap-6 transition-transform duration-500 ${col.offsetClass}`}
               >
                 {col.items.map((item) => (
-                  <div
+                  <button
                     key={item.name}
+                    type="button"
                     onClick={() => setSelectedCollection(item)}
-                    className={`group relative cursor-pointer p-0 rounded-2xl overflow-hidden bg-black shadow-xl transition-all duration-300 hover:shadow-2xl hover:border-brand-blue hover:-translate-y-1 border ${
+                    className={`group relative cursor-pointer p-0 rounded-2xl overflow-hidden bg-black shadow-xl transition-[transform,border-color,box-shadow] duration-200 hover:shadow-2xl hover:border-brand-blue hover:-translate-y-1 active:translate-y-0 border text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-4 ${
                       isDark ? 'border-white/15' : 'border-black/30'
                     }`}
+                    aria-label={`View ${item.title} details`}
                   >
                     {/* Cover Photograph */}
                     <div className="relative aspect-3/4 w-full overflow-hidden">
@@ -176,7 +178,7 @@ export default function SeriesShowcase() {
                     {/* Metadata Overlay */}
                     <div className="absolute inset-0 flex flex-col justify-between p-5 text-white pointer-events-none">
                       <div className="flex justify-end items-start">
-                        <span className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white group-hover:bg-brand-blue group-hover:text-white transition-all duration-200">
+                        <span className="w-10 h-10 sm:w-8 sm:h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white group-hover:bg-brand-blue group-hover:text-white transition-[background-color,color] duration-150">
                           <ArrowUpRight size={15} weight="bold" />
                         </span>
                       </div>
@@ -185,12 +187,15 @@ export default function SeriesShowcase() {
                         <span className="font-questrial text-xs uppercase tracking-[0.2em] text-white/70 block mb-0.5 font-normal">
                           {item.tagline}
                         </span>
-                        <h3 className="font-questrial text-2xl sm:text-3xl font-medium tracking-wider uppercase text-white leading-tight">
+                        <h3 className="font-questrial text-[1.7rem] sm:text-3xl font-medium tracking-[0.08em] sm:tracking-wider uppercase text-white leading-tight">
                           {item.title}
                         </h3>
+                        <span className="mt-3 inline-flex min-h-10 items-center rounded-full bg-white px-4 text-[10px] uppercase tracking-[0.12em] text-brand-dark">
+                          View Details
+                        </span>
                       </div>
                     </div>
-                  </div>
+                  </button>
                 ))}
               </div>
             ))}
