@@ -204,7 +204,7 @@ export default function FooterCTA() {
 
           <div className="flex items-center gap-6">
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/seyiloyaa_"
               target="_blank"
               rel="noreferrer"
               className="hover:text-brand-blue transition-colors"
@@ -212,15 +212,15 @@ export default function FooterCTA() {
               Instagram
             </a>
             <a
-              href="https://x.com"
+              href="https://www.tiktok.com/@seyiloyaa_"
               target="_blank"
               rel="noreferrer"
               className="hover:text-brand-blue transition-colors"
             >
-              Twitter / X
+              TikTok
             </a>
             <a
-              href="https://wa.me"
+              href="https://wa.me/2348035265619"
               target="_blank"
               rel="noreferrer"
               className="hover:text-brand-blue transition-colors"

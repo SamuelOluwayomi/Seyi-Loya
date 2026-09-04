@@ -82,10 +82,13 @@ export default function SeriesShowcase() {
       services: ['On-location Photography', 'Post-processing & Editing', 'High-Res Digital Files'],
     }
 
+    // Use non-first image in each category as requested
+    const showcasePhoto = photos.length > 1 ? photos[1] : photos[0]
+
     return {
       name,
       count: photos.length,
-      coverPhoto: photos[0],
+      coverPhoto: showcasePhoto,
       photos,
       ...details,
     }
@@ -121,11 +124,10 @@ export default function SeriesShowcase() {
   return (
     <section
       id="series"
-      className={`relative py-16 sm:py-20 md:py-32 px-4 sm:px-6 md:px-8 border-t select-none overflow-hidden transition-colors duration-300 ${
-        isDark
+      className={`relative py-16 sm:py-20 md:py-32 px-4 sm:px-6 md:px-8 border-t select-none overflow-hidden transition-colors duration-300 ${isDark
           ? 'bg-[#0a0b0d] border-white/10 text-white'
           : 'bg-brand-bg border-black/10 text-brand-dark'
-      }`}
+        }`}
       style={{
         backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent 39px, ${verticalLineColor} 39px, ${verticalLineColor} 40px)`,
         backgroundSize: '40px 100%',
@@ -135,9 +137,8 @@ export default function SeriesShowcase() {
         {/* Section Heading - Direct on Background */}
         <div className="mb-8 sm:mb-12">
           <span
-            className={`font-questrial text-xs uppercase tracking-[0.25em] font-normal block mb-1 ${
-              isDark ? 'text-gray-400' : 'text-brand-muted'
-            }`}
+            className={`font-questrial text-xs uppercase tracking-[0.25em] font-normal block mb-1 ${isDark ? 'text-gray-400' : 'text-brand-muted'
+              }`}
           >
             Photography Disciplines
           </span>
@@ -146,49 +147,89 @@ export default function SeriesShowcase() {
           </h2>
         </div>
 
-        {/* Mobile Grid: 2-col compact */}
-        <div className="sm:hidden pb-10">
-          <div className="grid grid-cols-2 gap-3">
-            {collections.map((item) => (
-              <button
+        {/* Mobile: Alternating Image & Text Rows (No click required to read) */}
+        <div className="sm:hidden pb-12 flex flex-col gap-4">
+          {collections.map((item, index) => {
+            const isImageLeft = index % 2 === 0
+            return (
+              <div
                 key={item.name}
-                type="button"
-                onClick={() => setSelectedCollection(item)}
-                className={`group relative cursor-pointer p-0 rounded-2xl overflow-hidden bg-black shadow-lg transition-[transform,box-shadow] duration-200 active:scale-95 border text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue ${
-                  isDark ? 'border-white/10' : 'border-black/20'
-                }`}
-                aria-label={`View ${item.title} details`}
+                className={`p-3 rounded-2xl border transition-all duration-300 flex items-center gap-3.5 ${isImageLeft ? 'flex-row' : 'flex-row-reverse'
+                  } ${isDark
+                    ? 'bg-white/4 border-white/10 shadow-md'
+                    : 'bg-white/80 border-black/10 shadow-xs'
+                  }`}
               >
-                {/* Cover photo — taller aspect for portrait feel */}
-                <div className="relative aspect-3/4 w-full overflow-hidden">
+                {/* Image side */}
+                <div
+                  className="w-[42%] shrink-0 relative aspect-4/5 rounded-xl overflow-hidden bg-black cursor-pointer group shadow-sm"
+                  onClick={() => setSelectedCollection(item)}
+                >
                   <img
                     src={getOptimizedUrl(item.coverPhoto?.secure_url, 'f_auto,q_auto,w_600')}
-                    alt={item.name}
+                    alt={item.title}
                     loading="lazy"
-                    className="w-full h-full object-cover object-center transition-transform duration-500 group-active:scale-105"
+                    className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/30 to-transparent" />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+
+                  {/* Photo count badge */}
+                  <span className="absolute bottom-1.5 left-1.5 px-1.5 py-0.5 rounded text-[9px] uppercase tracking-wider font-questrial bg-black/65 backdrop-blur-xs text-white/90">
+                    {item.count} photos
+                  </span>
+
+                  {/* Expand icon */}
+                  <span className="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-black/50 backdrop-blur-xs text-white flex items-center justify-center group-hover:bg-brand-blue transition-colors">
+                    <ArrowUpRight size={11} weight="bold" />
+                  </span>
                 </div>
 
-                {/* Overlay text */}
-                <div className="absolute inset-0 flex flex-col justify-between p-3 text-white pointer-events-none">
-                  <div className="flex justify-end">
-                    <span className="w-7 h-7 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                      <ArrowUpRight size={12} weight="bold" />
-                    </span>
+                {/* Text side */}
+                <div className="flex-1 min-w-0 flex flex-col justify-center">
+                  <span className="font-questrial text-[10px] uppercase tracking-[0.2em] font-medium text-brand-blue block mb-1 truncate">
+                    {item.tagline}
+                  </span>
+
+                  <h3
+                    className={`font-questrial text-base font-semibold tracking-[0.03em] uppercase leading-tight mb-1.5 ${isDark ? 'text-white' : 'text-brand-dark'
+                      }`}
+                  >
+                    {item.title}
+                  </h3>
+
+                  <p
+                    className={`font-questrial text-[11px] leading-relaxed line-clamp-3 mb-2 font-normal ${isDark ? 'text-gray-300' : 'text-gray-600'
+                      }`}
+                  >
+                    {item.description}
+                  </p>
+
+                  <div className="flex flex-wrap gap-1 mb-2">
+                    {item.services.slice(0, 2).map((svc) => (
+                      <span
+                        key={svc}
+                        className={`text-[8.5px] font-questrial px-2 py-0.5 rounded-full uppercase tracking-wider truncate max-w-full ${isDark
+                            ? 'bg-white/10 text-gray-300'
+                            : 'bg-black/5 text-brand-dark/75'
+                          }`}
+                      >
+                        {svc}
+                      </span>
+                    ))}
                   </div>
-                  <div>
-                    <span className="font-questrial text-[9px] uppercase tracking-[0.18em] text-white/65 block mb-0.5 font-normal leading-tight">
-                      {item.tagline}
-                    </span>
-                    <h3 className="font-questrial text-sm font-medium tracking-wider uppercase text-white leading-tight">
-                      {item.title}
-                    </h3>
-                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setSelectedCollection(item)}
+                    className="inline-flex items-center gap-1 font-questrial text-[10px] uppercase tracking-[0.15em] font-semibold text-brand-blue hover:underline cursor-pointer w-fit"
+                  >
+                    <span>View Gallery</span>
+                    <ArrowRight size={11} weight="bold" />
+                  </button>
                 </div>
-              </button>
-            ))}
-          </div>
+              </div>
+            )
+          })}
         </div>
 
         {/* Desktop Staggered Grid: 4-col with vertical offset */}
@@ -204,9 +245,8 @@ export default function SeriesShowcase() {
                     key={item.name}
                     type="button"
                     onClick={() => setSelectedCollection(item)}
-                    className={`group relative cursor-pointer p-0 rounded-2xl overflow-hidden bg-black shadow-xl transition-[transform,border-color,box-shadow] duration-200 hover:shadow-2xl hover:border-brand-blue hover:-translate-y-1 active:translate-y-0 border text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-4 ${
-                      isDark ? 'border-white/15' : 'border-black/30'
-                    }`}
+                    className={`group relative cursor-pointer p-0 rounded-2xl overflow-hidden bg-black shadow-xl transition-[transform,border-color,box-shadow] duration-200 hover:shadow-2xl hover:border-brand-blue hover:-translate-y-1 active:translate-y-0 border text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-blue focus-visible:ring-offset-4 ${isDark ? 'border-white/15' : 'border-black/30'
+                      }`}
                     aria-label={`View ${item.title} details`}
                   >
                     {/* Cover Photograph */}
@@ -256,36 +296,32 @@ export default function SeriesShowcase() {
           className="fixed inset-0 z-50 bg-black/90 backdrop-blur-2xl flex items-center justify-center p-4 sm:p-6 md:p-10 select-none overflow-y-auto"
         >
           <div
-            className={`relative w-full max-w-4xl rounded-3xl shadow-2xl overflow-hidden my-auto flex flex-col md:flex-row border ${
-              isDark
+            className={`relative w-full max-w-4xl rounded-3xl shadow-2xl overflow-hidden my-auto flex flex-col md:flex-row border ${isDark
                 ? 'bg-[#12141d] border-white/15 text-white'
                 : 'bg-brand-bg border-black/20 text-brand-dark'
-            }`}
+              }`}
           >
             <button
               type="button"
               onClick={() => setSelectedCollection(null)}
-              className={`absolute top-4 right-4 z-30 p-2.5 rounded-full hover:bg-brand-blue hover:text-white transition-all cursor-pointer ${
-                isDark
+              className={`absolute top-4 right-4 z-30 p-2.5 rounded-full hover:bg-brand-blue hover:text-white transition-all cursor-pointer ${isDark
                   ? 'bg-white/10 text-white'
                   : 'bg-black/10 text-brand-dark'
-              }`}
+                }`}
               aria-label="Close details"
             >
               <X size={20} weight="bold" />
             </button>
 
             <div
-              className={`w-full md:w-1/2 p-4 sm:p-6 flex flex-col justify-between border-b md:border-b-0 md:border-r ${
-                isDark
+              className={`w-full md:w-1/2 p-4 sm:p-6 flex flex-col justify-between border-b md:border-b-0 md:border-r ${isDark
                   ? 'bg-black/30 border-white/10'
                   : 'bg-black/5 border-black/10'
-              }`}
+                }`}
             >
               <div
-                className={`relative aspect-3/4 w-full rounded-2xl overflow-hidden bg-black shadow-inner p-0 border ${
-                  isDark ? 'border-white/15' : 'border-black/20'
-                }`}
+                className={`relative aspect-3/4 w-full rounded-2xl overflow-hidden bg-black shadow-inner p-0 border ${isDark ? 'border-white/15' : 'border-black/20'
+                  }`}
               >
                 <img
                   src={getOptimizedUrl(
@@ -304,13 +340,12 @@ export default function SeriesShowcase() {
                       key={photo.id}
                       type="button"
                       onClick={() => setActiveCoverPhoto(photo)}
-                      className={`relative w-14 h-14 rounded-lg overflow-hidden border transition-all cursor-pointer shrink-0 ${
-                        activeCoverPhoto?.id === photo.id
+                      className={`relative w-14 h-14 rounded-lg overflow-hidden border transition-all cursor-pointer shrink-0 ${activeCoverPhoto?.id === photo.id
                           ? 'border-brand-blue ring-2 ring-brand-blue/40 scale-105'
                           : isDark
-                          ? 'border-white/20 opacity-70 hover:opacity-100'
-                          : 'border-black/20 opacity-70 hover:opacity-100'
-                      }`}
+                            ? 'border-white/20 opacity-70 hover:opacity-100'
+                            : 'border-black/20 opacity-70 hover:opacity-100'
+                        }`}
                     >
                       <img
                         src={getOptimizedUrl(photo.secure_url, 'f_auto,q_auto,w_200')}
@@ -332,22 +367,19 @@ export default function SeriesShowcase() {
                   {selectedCollection.title}
                 </h3>
                 <p
-                  className={`font-questrial text-base sm:text-lg leading-relaxed mb-6 font-normal ${
-                    isDark ? 'text-gray-300' : 'text-brand-dark/85'
-                  }`}
+                  className={`font-questrial text-base sm:text-lg leading-relaxed mb-6 font-normal ${isDark ? 'text-gray-300' : 'text-brand-dark/85'
+                    }`}
                 >
                   {selectedCollection.description}
                 </p>
 
                 <div
-                  className={`space-y-3 pt-4 border-t mb-8 ${
-                    isDark ? 'border-white/10' : 'border-black/10'
-                  }`}
+                  className={`space-y-3 pt-4 border-t mb-8 ${isDark ? 'border-white/10' : 'border-black/10'
+                    }`}
                 >
                   <span
-                    className={`font-questrial text-[11px] uppercase tracking-[0.22em] block font-normal ${
-                      isDark ? 'text-gray-400' : 'text-brand-muted'
-                    }`}
+                    className={`font-questrial text-[11px] uppercase tracking-[0.22em] block font-normal ${isDark ? 'text-gray-400' : 'text-brand-muted'
+                      }`}
                   >
                     What I Deliver
                   </span>
@@ -357,9 +389,8 @@ export default function SeriesShowcase() {
                         <ArrowRight size={12} weight="bold" />
                       </span>
                       <span
-                        className={`font-questrial text-sm uppercase tracking-[0.14em] font-medium ${
-                          isDark ? 'text-gray-200' : 'text-brand-dark'
-                        }`}
+                        className={`font-questrial text-sm uppercase tracking-[0.14em] font-medium ${isDark ? 'text-gray-200' : 'text-brand-dark'
+                          }`}
                       >
                         {svc}
                       </span>
@@ -372,11 +403,10 @@ export default function SeriesShowcase() {
                 <a
                   href="#contact"
                   onClick={() => setSelectedCollection(null)}
-                  className={`w-full inline-flex items-center justify-center gap-3 text-white px-6 py-3.5 rounded-full font-questrial text-xs uppercase tracking-[0.2em] font-medium shadow-lg hover:shadow-xl transition-all cursor-pointer ${
-                    isDark
+                  className={`w-full inline-flex items-center justify-center gap-3 text-white px-6 py-3.5 rounded-full font-questrial text-xs uppercase tracking-[0.2em] font-medium shadow-lg hover:shadow-xl transition-all cursor-pointer ${isDark
                       ? 'bg-brand-blue hover:bg-blue-600'
                       : 'bg-brand-dark hover:bg-black'
-                  }`}
+                    }`}
                 >
                   <span>Book This Shoot</span>
                   <ArrowUpRight size={16} weight="bold" />
