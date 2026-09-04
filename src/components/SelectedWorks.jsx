@@ -263,7 +263,7 @@ export default function SelectedWorks() {
             onMouseLeave={() => setIsHovered(false)}
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
-            className="relative w-full max-w-4xl mx-auto h-[380px] sm:h-[460px] md:h-[500px] flex items-center justify-center mt-0.5 sm:mt-2 mb-2"
+            className="relative w-full max-w-4xl mx-auto h-95 sm:h-115 md:h-125 flex items-center justify-center mt-0.5 sm:mt-2 mb-2"
           >
             {displayedPhotos.map((photo, index) => {
               const isCenter = index === activeIndex
@@ -282,7 +282,7 @@ export default function SelectedWorks() {
                     }
                   }}
                   style={style}
-                  className={`absolute w-[240px] sm:w-[290px] md:w-[330px] aspect-3/4 p-0 rounded-2xl overflow-hidden bg-black shadow-2xl cursor-pointer border ${
+                  className={`absolute w-60 sm:w-72.5 md:w-82.5 aspect-3/4 p-0 rounded-2xl overflow-hidden bg-black shadow-2xl cursor-pointer border ${
                     isDark ? 'border-white/20' : 'border-black/30'
                   } ${
                     isCenter

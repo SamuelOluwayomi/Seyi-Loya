@@ -68,7 +68,7 @@ export default function Hero() {
             Visualising Culture, Light & Identity
           </p>
 
-          <div className="flex flex-col gap-2.5 w-full max-w-[170px]">
+          <div className="flex flex-col gap-2.5 w-full max-w-42.5">
             <a
               href="#works"
               className={`inline-flex items-center justify-center gap-2 text-[10px] uppercase tracking-[0.16em] text-white px-4 py-2.5 rounded-full font-medium transition-colors shadow-md whitespace-nowrap ${isDark ? 'bg-brand-blue hover:bg-blue-600' : 'bg-brand-dark hover:bg-black'
@@ -91,7 +91,7 @@ export default function Hero() {
         </div>
 
         {/* Mobile Portrait */}
-        <div className="absolute right-[-150px] bottom-[-25px] h-[78vh] flex items-end justify-end pointer-events-none z-20">
+        <div className="absolute -right-37.5 -bottom-6.25 h-[78vh] flex items-end justify-end pointer-events-none z-20">
           <div className="relative h-full w-auto flex items-end">
             <img
               src={portraitSrc}
@@ -130,7 +130,7 @@ export default function Hero() {
             transform: `translate(${mouseOffset.x * 0.8}px, ${mouseOffset.y * 0.4}px)`,
           }}
         >
-          <div className="relative h-[68vh] md:h-[78vh] max-h-[720px] w-auto flex items-end">
+          <div className="relative h-[68vh] md:h-[78vh] max-h-180 w-auto flex items-end">
             <img
               src={portraitSrc}
               alt="Seyi Loyaa Portrait"
